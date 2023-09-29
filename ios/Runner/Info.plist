@@ -24,6 +24,23 @@
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
+		<!-- Start Permission strings -->
+		<key>NSAppleMusicUsageDescription</key>
+		<string>Play audio files</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Usaremos tu cámara solo para escanear el código QR de tu credencial.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Please grant microphone access</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Se accederá solo a tus archivos / fotos para seleccionar el QR de inicio de sesión.</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<!-- End Permission strings -->
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
 		<key>UIMainStoryboardFile</key>

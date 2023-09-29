@@ -83,6 +83,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     try {
       if (Platform.isAndroid) {
         deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+      } else if (Platform.isIOS) {
+        deviceData = _readIosBuildData(await deviceInfoPlugin.iosInfo);
       }
     } on PlatformException {
       deviceData = <String, dynamic>{
@@ -96,7 +98,8 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
         'info.brand', deviceData['brand'].toString());
     await keyValueStorageService.setKeyValue(
         'info.model', deviceData['model'].toString());
-    await keyValueStorageService.setKeyValue('info.os', 'android');
+    await keyValueStorageService.setKeyValue(
+        'info.os', Platform.isAndroid ? 'android' : 'ios');
     await keyValueStorageService.setKeyValue(
         'info.version', deviceData['version'].toString());
     ref.read(saveTokenDeviceProvider);
@@ -109,6 +112,16 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       "model": androidInfo.model,
       "os": androidInfo.serialNumber,
       "version": androidInfo.version.release,
+    };
+  }
+
+  Map<String, dynamic> _readIosBuildData(IosDeviceInfo iosDeviceInfo) {
+    return <String, String>{
+      "deviceId": iosDeviceInfo.identifierForVendor!,
+      "brand": 'Apple',
+      "model": iosDeviceInfo.model,
+      "os": iosDeviceInfo.systemName,
+      "version": iosDeviceInfo.systemVersion,
     };
   }
 

@@ -33,6 +33,14 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
 
   bool active = true;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void getCardExpiration() async {}
+
   void _showSnackbar(String content) {
     final snackBar = SnackBar(content: (Text(content)));
 
@@ -154,7 +162,7 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
 
   Widget _studentPersonalData(Registration registration) {
     return Container(
-      color: Color.fromARGB(0, 76, 175, 79),
+      color: const Color.fromARGB(0, 76, 175, 79),
       width: 302,
       height: 120,
       child: Row(children: [
@@ -169,27 +177,37 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
         const SizedBox(
           width: 10,
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 45,
-            ),
-            Text(
-              registration.names!,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              registration.surnames!,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              registration.curp!,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        )
+        SizedBox(
+          width: 180,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 45,
+              ),
+              FittedBox(
+                child: Text(
+                  registration.names!,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              FittedBox(
+                child: Text(registration.surnames!,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              FittedBox(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Text(
+                    registration.curp!,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ]),
     );
   }
@@ -241,7 +259,7 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
 
   Widget _frontCareerContainer(Registration registration) {
     return Container(
-      width: 35,
+      width: 30,
       height: 218,
       color: Colors.transparent,
       child: RotatedBox(
@@ -308,10 +326,12 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const FittedBox(
+                  FittedBox(
                     child: Text(
-                      '$cardValidity',
-                      style: TextStyle(
+                      int.parse(registration.grade!.name!) > 1
+                          ? cardValidityOld
+                          : cardValidityNew,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 10),
