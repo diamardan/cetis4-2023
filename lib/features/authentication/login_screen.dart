@@ -76,19 +76,21 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   _loginWithCamera(BuildContext context) async {
-    var status = await Permission.camera.status;
-    if (status.isDenied) {
-      return showDialogPermissions();
-    }
+    var request = await Permission.camera.request();
+    print(request);
 
-    String qr = await scanQR();
-
-    if (qr.isEmpty) {
+    if (request.isGranted) {
+      // Permiso concedido, puedes usar la cámara
+      String qr = await scanQR();
+      if (qr.isNotEmpty) {
+        //Map<String, dynamic> response = await signInController.authenticate(qr);
+        ref.read(authProvider.notifier).loginWithQr(qr);
+      }
       return;
+    } else {
+      // Permiso denegado, mostrar diálogo de solicitud de permisos
+      showDialogPermissions();
     }
-
-    //Map<String, dynamic> response = await signInController.authenticate(qr);
-    ref.read(authProvider.notifier).loginWithQr(qr);
   }
 
   _loginWithEmail() async {
