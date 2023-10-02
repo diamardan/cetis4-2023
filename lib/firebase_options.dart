@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAgh6pxPd_Mui24enrPY7vlUprcGsL6CAE',
-    appId: '1:982020713610:ios:5c7308ce57f061b6ec5173',
+    appId: '1:982020713610:ios:405c0d9cc8b786b2ec5173',
     messagingSenderId: '982020713610',
     projectId: 'cetis4-notifications',
     storageBucket: 'cetis4-notifications.appspot.com',
-    iosBundleId: 'com.example.cetis4',
+    iosBundleId: 'com.datamexab.cetis4',
   );
 }
