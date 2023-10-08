@@ -84,10 +84,13 @@ class FirebasePushNotification {
   }
 
   void _getFCMToken() async {
-    final token = await messaging.getToken().then((token) {
+    final token = await messaging
+        .getToken(); /* .then((token) {
       print('APNS Token: $token');
-    });
-    await keyValueStorageService.setKeyValue('fcm', token);
+    }); */
+    debugPrint(token);
+    print('APNS Token: $token');
+    await keyValueStorageService.setKeyValue('fcm', token.toString());
     debugPrint(token);
   }
 
