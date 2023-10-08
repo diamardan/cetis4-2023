@@ -110,7 +110,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       "deviceId": androidInfo.id,
       "brand": androidInfo.brand,
       "model": androidInfo.model,
-      "os": androidInfo.serialNumber,
+      "os": 'android',
       "version": androidInfo.version.release,
     };
   }
