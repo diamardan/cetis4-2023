@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:cetis4/config/shared_provider/shared_providers.dart';
 import 'package:cetis4/features/notification/data/api/notification_api.dart';
 import 'package:cetis4/features/notification/data/models/device.dart';
+import 'package:cetis4/features/notification/data/models/notification_detail.dart';
 import 'package:cetis4/features/notification/data/repository/notification_repository.dart';
 import 'package:cetis4/utils/key_value_storage_service_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cetis4/features/notification/data/models/notifications.dart';
 
 final notificationApiProvider = Provider<NotificationApi>((ref) {
   return NotificationApi(ref.read(dioClientProvider));
@@ -15,6 +17,51 @@ final notificationApiProvider = Provider<NotificationApi>((ref) {
 final notificationRepositoryProvider = Provider<NotificationRepository>((ref) {
   return NotificationRepository(ref.read(notificationApiProvider));
 });
+
+final notificationProvider = StateNotifierProvider.autoDispose<
+    NotificationNotifier, List<Notifications>>((ref) {
+  return NotificationNotifier(ref: ref);
+});
+
+final isLoadingNotificationProvider = StateProvider.autoDispose<bool>((ref) {
+  return true;
+});
+
+final notificationDetailProvider = FutureProvider.family
+    .autoDispose<NotificationDetail, String>((ref, notificationId) async {
+  return await ref.read(notificationRepositoryProvider).getById(notificationId);
+});
+
+final readNotificacionProvider =
+    StateProvider.family.autoDispose<void, String>((ref, notificationId) async {
+  final keyValueStorageService = KeyValueStorageServiceImpl();
+  final userId = await keyValueStorageService.getValue<String>('userId');
+  await ref
+      .read(notificationRepositoryProvider)
+      .readNotification(userId!, notificationId);
+});
+
+class NotificationNotifier extends StateNotifier<List<Notifications>> {
+  // Fetching all products whenever anyone starts listning.
+  // Passing Ref, in order to access other providers inside this.
+  NotificationNotifier({required this.ref}) : super([]) {
+    fetchProducts(ref: ref);
+  }
+  final Ref ref;
+
+  Future fetchProducts({required Ref ref}) async {
+    final keyValueStorageService = KeyValueStorageServiceImpl();
+    final userId = await keyValueStorageService.getValue<String>('userId');
+    await ref
+        .read(notificationRepositoryProvider)
+        .getAll(userId!)
+        .then((value) {
+      state = value;
+      // Setting isLoading to `false`.
+      ref.read(isLoadingNotificationProvider.notifier).state = false;
+    });
+  }
+}
 
 final saveTokenDeviceProvider = Provider<void>((ref) async {
   final keyValueStorageService = KeyValueStorageServiceImpl();
@@ -29,7 +76,7 @@ final saveTokenDeviceProvider = Provider<void>((ref) async {
   final deviceVersion =
       await keyValueStorageService.getValue<String>('info.version');
   final fcm = await keyValueStorageService.getValue<String>('fcm');
-  print("hoasdasdada");
+
   debugPrint(fcm);
   Map<String, dynamic> device = {
     "deviceId": deviceId,
