@@ -218,7 +218,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           Column(
             children: [
-              Container(
+              const SizedBox(
                   width: 100,
                   child: FittedBox(
                       child: Text(
@@ -227,7 +227,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                   ))),
               IconButton(
                   // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
-                  icon: FaIcon(
+                  icon: const FaIcon(
                     FontAwesomeIcons.whatsapp,
                     size: 40,
                     color: softGreen,

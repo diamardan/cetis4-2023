@@ -1,5 +1,6 @@
 import 'package:cetis4/config/constants/constants.dart';
 import 'package:cetis4/features/authentication/providers/auth_provider.dart';
+import 'package:cetis4/features/notification/providers/firebase_push_notification.dart';
 import 'package:cetis4/utils/alert_dialog.dart';
 import 'package:cetis4/utils/custom_text_form_field.dart';
 import 'package:cetis4/utils/whatsapp_button.dart';
@@ -82,9 +83,19 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     if (request.isGranted) {
       // Permiso concedido, puedes usar la cámara
       String qr = await scanQR();
-      if (qr.isNotEmpty) {
+      if (qr != "-1") {
+        final container = ProviderContainer();
+        final firebasePushNotification =
+            container.read(firebasePushNotificationProvider);
+
+        await firebasePushNotification.getFCMToken();
+
+        container.dispose();
         //Map<String, dynamic> response = await signInController.authenticate(qr);
         ref.read(authProvider.notifier).loginWithQr(qr);
+      } else {
+        NotifyUI.showBasic(
+            context, 'Aviso', 'Escaneo de QR cancelado o inválido');
       }
       return;
     } else {
