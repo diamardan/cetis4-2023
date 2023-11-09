@@ -23,7 +23,7 @@
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
-		<true/>
+		<true />
 		<!-- Start Permission strings -->
 		<key>NSAppleMusicUsageDescription</key>
 		<string>Play audio files</string>
@@ -34,7 +34,7 @@
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Se accederá solo a tus archivos / fotos para seleccionar el QR de inicio de sesión.</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		<true/>
+		<true />
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>
@@ -59,12 +59,22 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<false/>
+		<false />
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>sms</string>
+			<string>tel</string>
+			<string>https</string>
+		</array>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
-		<true/>
+		<true />
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		<true/>
+		<true />
 		<key>UIStatusBarHidden</key>
-		<false/>
+		<false />
+		<key>UNNotificationSound</key>
+		<string>default</string>
+		<key>UIUserNotificationSounds</key>
+		<true />
 	</dict>
 </plist>

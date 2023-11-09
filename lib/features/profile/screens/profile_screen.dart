@@ -12,9 +12,18 @@ class ProfileScreen extends ConsumerWidget {
 
     return SafeArea(
         child: Scaffold(
-      body: Center(
-        child: buildCacheNetworkImage(
-            url: "https://drive.google.com/uc?id=${profile.studentPhotoPath}"),
+      appBar: AppBar(title: Text('')),
+      body: GestureDetector(
+        onHorizontalDragEnd: (details) {
+          if (details.velocity.pixelsPerSecond.dx < 0) {
+            Navigator.of(context).pop();
+          }
+        },
+        child: Center(
+          child: buildCacheNetworkImage(
+              url:
+                  "https://drive.google.com/uc?id=${profile.studentPhotoPath}"),
+        ),
       ),
     ));
   }
