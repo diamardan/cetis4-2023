@@ -3,6 +3,7 @@ import 'package:cetis4/features/authentication/providers/auth_provider.dart';
 import 'package:cetis4/features/notification/providers/firebase_push_notification.dart';
 import 'package:cetis4/utils/alert_dialog.dart';
 import 'package:cetis4/utils/custom_text_form_field.dart';
+import 'package:cetis4/utils/screens/credential_process_screen.dart';
 import 'package:cetis4/utils/whatsapp_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -157,15 +158,16 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(
                 height: 10,
               ),
-              _button(Icons.qr_code, "Escanear el QR de tu credencial",
-                  "camera", context),
-              _button(Icons.upload_file_sharp, "Buscar el QR en mis archivos",
-                  "qr", context),
+              _button(Icons.qr_code, "Escanea el QR de tu credencial", "camera",
+                  context),
+              /* _button(
+                  Icons.upload_file_sharp, "QR desde archivo", "qr", context), */
+              const Divider(),
+              _button(Icons.credit_card, "Trámite de credencial",
+                  "credential-process", context, Colors.blue),
               const SizedBox(
                 height: 10,
               ),
-              /* _button(Icons.app_registration, "Preregistro", "preregistration",
-                  context), */
               /* const Text(
                 "o",
               ),
@@ -257,30 +259,38 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         ]));
   }
 
-  _button(icon, title, key, context) => Container(
-      width: MediaQuery.of(context).size.width,
-      height: 45,
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      child: ElevatedButton.icon(
-          icon: Icon(
-            icon,
-          ),
-          label: FittedBox(
-            fit: BoxFit.contain,
-            child: Text(
-              "  " + title,
-            ),
-          ),
-          onPressed: () {
-            switch (key) {
-              case "camera":
-                _loginWithCamera(context);
-                break;
-              case "qr":
-                _loginQrFromFile(context);
-                break;
-            }
-          }));
+  _button(icon, title, key, context, [Color backgroundColor = primaryColor]) =>
+      Container(
+          width: MediaQuery.of(context).size.width,
+          height: 45,
+          margin: const EdgeInsets.symmetric(vertical: 5),
+          child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(backgroundColor: backgroundColor),
+              icon: Icon(
+                icon,
+              ),
+              label: FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  "  " + title,
+                ),
+              ),
+              onPressed: () {
+                switch (key) {
+                  case "camera":
+                    _loginWithCamera(context);
+                    break;
+                  case "qr":
+                    _loginQrFromFile(context);
+                    break;
+                  case "credential-process":
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CredentialProcessScreen()));
+                }
+              }));
 
   showDialogPermissions() {
     showDialog(

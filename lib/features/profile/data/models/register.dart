@@ -46,6 +46,9 @@ class Registration {
   final String? hora;
   final String? tipoRegistro;
   final int? idbioInt;
+  dynamic isReposition;
+  dynamic repositionDate;
+  dynamic status;
   final Career? career;
   final Career? grade;
   final Career? group;
@@ -72,6 +75,9 @@ class Registration {
     this.hora,
     this.tipoRegistro,
     this.idbioInt,
+    this.isReposition,
+    this.repositionDate,
+    this.status,
     this.career,
     this.grade,
     this.group,
@@ -103,6 +109,11 @@ class Registration {
         hora: json["hora"],
         tipoRegistro: json["tipo_registro"],
         idbioInt: json["idbioInt"],
+        isReposition: json["isReposition"] ?? '',
+        status: json["status"] ?? '',
+        repositionDate: json["reposition_date"] == null
+            ? null
+            : DateTime.parse(json["reposition_date"]),
         career: json["career"] == null ? null : Career.fromJson(json["career"]),
         grade: json["grade"] == null ? null : Career.fromJson(json["grade"]),
         group: json["group"] == null ? null : Career.fromJson(json["group"]),
@@ -130,6 +141,9 @@ class Registration {
         "hora": hora,
         "tipo_registro": tipoRegistro,
         "idbioInt": idbioInt,
+        "isReposition": isReposition,
+        "status": status,
+        "reposition_date": repositionDate?.toIso8601String(),
         "career": career?.toJson(),
         "grade": grade?.toJson(),
         "group": group?.toJson(),

@@ -3,6 +3,10 @@ import 'package:dio/dio.dart';
 class DioExceptions implements Exception {
   late String message;
 
+  DioExceptions.timeout() {
+    message = "Timeout while connecting to the server";
+  }
+
   DioExceptions.fromDioError(DioException dioError) {
     switch (dioError.type) {
       case DioExceptionType.cancel:

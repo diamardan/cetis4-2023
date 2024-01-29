@@ -8,6 +8,7 @@ import 'package:cetis4/features/profile/providers/profile_provider.dart';
 import 'package:cetis4/utils/cache_image_network.dart';
 import 'package:cetis4/utils/imageUtil.dart';
 import 'package:cetis4/utils/widget_to_image.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:barcode_widget/barcode_widget.dart';
@@ -84,7 +85,13 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
   }
 
   Widget credentialWrapper(Registration registration) {
-    return Column(
+    return Center(
+      child: FlipCard(
+        front: credentialFront(registration),
+        back: credentialBack(registration),
+        flipOnTouch: true,
+      ),
+    ); /* Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         credentialFront(registration),
@@ -93,7 +100,7 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
         ),
         credentialBack(registration),
       ],
-    );
+    ); */
   }
 
   Widget credentialFront(Registration registration) {
@@ -151,7 +158,7 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
       child: Column(
         children: [
           const SizedBox(
-            height: 35,
+            height: 30,
           ),
           _studentPersonalData(registration),
           _frontCredentialFooter(registration),
@@ -162,12 +169,12 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
 
   Widget _studentPersonalData(Registration registration) {
     return Container(
-      color: const Color.fromARGB(0, 76, 175, 79),
+      color: Color.fromARGB(0, 76, 175, 79),
       width: 302,
       height: 120,
       child: Row(children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
+          padding: const EdgeInsets.fromLTRB(12, 8, 8, 0),
           child: buildCacheNetworkImage(
               width: 90,
               height: 100,
@@ -175,7 +182,7 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
                   "https://drive.google.com/uc?id=${registration.studentPhotoPath}"),
         ),
         const SizedBox(
-          width: 10,
+          width: 12,
         ),
         SizedBox(
           width: 180,
@@ -198,7 +205,7 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
               ),
               FittedBox(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                   child: Text(
                     registration.curp!,
                     style: const TextStyle(fontWeight: FontWeight.bold),
@@ -241,14 +248,17 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 49,
-                width: 170,
-                child: registration.registrationNumber != ""
-                    ? BarcodeWidget(
-                        data: registration.registrationNumber!,
-                        barcode: Barcode.code128())
-                    : const SizedBox(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
+                child: SizedBox(
+                  height: 45,
+                  width: 170,
+                  child: registration.registrationNumber != ""
+                      ? BarcodeWidget(
+                          data: registration.registrationNumber!,
+                          barcode: Barcode.code128())
+                      : const SizedBox(),
+                ),
               ),
             ],
           ),
@@ -312,7 +322,7 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   const SizedBox(
-                    height: 5,
+                    height: 3,
                   ),
                   FittedBox(
                     child: Text(
@@ -380,18 +390,18 @@ class NewIdentityCardScreenState extends ConsumerState<NewIdentityCardScreen> {
                 width: 90,
                 child: Column(children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB(8.0, 5, 8, 5),
                     child: Text(
                       registration.grade!.name!,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Text(
-                    registration.group!.name!,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 4,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 5, 8, 5),
+                    child: Text(
+                      registration.group!.name!,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ]),
               ),
